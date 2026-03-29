@@ -1553,6 +1553,7 @@
   <span style="${C}"><span style="${L}">Layout</span><select id="layoutEx" style="${S}"><option value="auto"${mps.mode === 'auto' ? ' selected' : ''}>Autom&#225;tico<\/option><option value="xml"${mps.mode === 'xml' ? ' selected' : ''}>Do arquivo<\/option><option value="fixed"${mps.mode === 'fixed' ? ' selected' : ''}>Fixar<\/option><\/select><input type="number" id="mpsCountEx" value="${safeMpsCount}" min="1" max="32" style="${I}width:36px;text-align:center;" ${mps.mode !== 'fixed' ? 'disabled' : ''}></span>
   <span style="font-size:12px;color:#9ca3af;padding:0 4px;">&#9654;/&#9646;&#9646;&nbsp;clique &nbsp;&bull;&nbsp; &#9632;&nbsp;duplo &nbsp;&bull;&nbsp; &#9198;&nbsp;triplo</span>
 </div>
+<p id="st" style="display:none;text-align:center;font-size:13px;color:#6b7280;"></p>
 <div id="score" style="overflow-x:auto;cursor:pointer;"></div>
 
 <script>
@@ -1817,20 +1818,39 @@
       var rv = to ? (typeof to.realValue !== 'undefined' ? to.realValue : (to.RealValue || 0)) : 0;
       var t = rv * 4 * bl;
 
-      v.forEach(function(ve){
-        if(!ve || !ve.Notes) return;
+      for(var i = 0; i < v.length; i++){
+        var ve = v[i];
+        if(!ve || !ve.Notes) continue;
 
-        ve.Notes.forEach(function(n){
-          if(!n || n.isRest() || isTieCont(n)) return;
+        var partIdx = 0;
+        try{
+          if(ve.ParentVoice && ve.ParentVoice.Parent){
+            var instObj = ve.ParentVoice.Parent;
+            if(!instObj.NameLabel && instObj.ParentInstrument) instObj = instObj.ParentInstrument;
+            if(instObj && osmd.Sheet.Instruments){
+              var idx = osmd.Sheet.Instruments.indexOf(instObj);
+              if(idx < 0){
+                for(var k = 0; k < osmd.Sheet.Instruments.length; k++){
+                  if(osmd.Sheet.Instruments[k].Id === instObj.Id || osmd.Sheet.Instruments[k] === instObj){ idx = k; break; }
+                }
+              }
+              if(idx >= 0) partIdx = idx;
+            }
+          }
+        }catch(e){}
+
+        for(var j = 0; j < ve.Notes.length; j++){
+          var n = ve.Notes[j];
+          if(!n || n.isRest() || isTieCont(n)) continue;
           var m = getMidi(n);
-          if(m === null) return;
+          if(m === null) continue;
 
           var d = getTiedDur(n, bl);
           evs.push({ t:t, m:m, d:d, part: partIdx });
 
           if(t + d > pieceEnd) pieceEnd = t + d;
-        });
-      });
+        }
+      }
 
       it.moveToNext();
     }
@@ -1880,6 +1900,11 @@
   }
 
   async function play(off){
+    if(!ac || ac.state === 'closed'){
+      ac = new (window.AudioContext || window.webkitAudioContext)();
+      setupFx();
+    }
+    if(ac.state === 'suspended') await ac.resume();
     await ensureInst();
     extract();
     updateReverb();
