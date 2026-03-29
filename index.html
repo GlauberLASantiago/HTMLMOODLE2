@@ -1360,42 +1360,6 @@
                 stopPlayback(true);
             };
 
-            document.getElementById('instSel').onchange = async function () {
-                if (!rawXml) return;
-
-                var wasRunning = run;
-                var resumeOffset = 0;
-
-                if (wasRunning && ac) {
-                    resumeOffset = Math.max(0, ac.currentTime - sat);
-                } else {
-                    resumeOffset = pat || 0;
-                }
-
-                run = false;
-                stopScheduled();
-                clearCursorTimer();
-                clearPlaybackEndTimer();
-
-                try {
-                    /* removed */
-
-                    if (wasRunning) {
-                        run = true;
-                        await scheduleFrom(resumeOffset);
-                        startCursorFollow(resumeOffset);
-                        pat = 0;
-                        setStatus('A tocar...', 'ok');
-                    } else {
-                        pat = resumeOffset;
-                        moveCursorToTime(pat);
-                        setStatus('Timbre alterado.', 'ok');
-                    }
-                } catch (err) {
-                    setStatus('Erro ao trocar timbre: ' + err.message, 'err');
-                }
-            };
-
             document.getElementById('reverbAmt').oninput = function () {
                 updateReverb();
             };
@@ -1961,28 +1925,6 @@
 
     armPlaybackEnd(off);
   }
-
-  document.getElementById('inst').addEventListener('change', async function(){
-    var wasRunning = run;
-    var resumeOffset = (wasRunning && ac) ? Math.max(0, ac.currentTime - sat) : (pat || 0);
-
-    run = false;
-    stopAll();
-    clearCursorTimer();
-    clearPlaybackEndTimer();
-
-    await ensureInst();
-
-    if(wasRunning){
-      run = true;
-      await play(resumeOffset);
-      startCursorFollow(resumeOffset);
-      pat = 0;
-    }else{
-      pat = resumeOffset;
-      moveCursorToTime(pat);
-    }
-  });
 
   document.getElementById('rev').addEventListener('input', function(){
     updateReverb();
