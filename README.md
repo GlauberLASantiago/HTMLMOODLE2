@@ -1,61 +1,57 @@
-# 🎵 Player de Partitura — MusicXML para Moodle/Web
+# Abrir MusicXML
 
-Ferramenta interativa para **visualizar e tocar partituras** em formato MusicXML diretamente no navegador, com integração ao **Moodle** via exportação de HTML embutido.
+Aplicativo em arquivo único para abrir, visualizar, ouvir e preparar partituras MusicXML diretamente no navegador.
 
 Desenvolvido pelo professor **Glauber Santiago** — DAC/UFSCar  
 🔗 [servidores.ufscar.br/glauber](https://servidores.ufscar.br/glauber/) | [sites.google.com/view/glauberia](https://sites.google.com/view/glauberia)
 
 ---
 
-## ✨ Funcionalidades
+## Visão geral
 
-- 📂 **Carregamento de arquivos** `.xml` / `.musicxml`
-- 🎼 **Renderização da partitura** com a biblioteca [OpenSheetMusicDisplay (OSMD)](https://opensheetmusicdisplay.org/)
-- ▶️ **Reprodução de áudio** com cursor animado sincronizado (via [Soundfont Player](https://github.com/danigb/soundfont-player))
-- 🎹 **Seleção de timbre** por instrumento (General MIDI)
-- 🎚️ **Controles de playback**: Play / Pause / Stop
-- 🕐 **Ajuste de andamento** (BPM)
-- 🔔 **Metrônomo** opcional durante a reprodução
-- 🌊 **Reverb** ajustável
-- 🎵 **Transposição** e **deslocamento de oitava**
-- 🎛️ **Painel por partes**: mudo, solo e timbre individual por instrumento
-- 📐 **Layout configurável**: número de compassos por sistema
-- 📋 **Copiar HTML** — gera o player completo para colar no Moodle
-- ⬇️ **Baixar HTML** — salva o player como arquivo `.html` independente
+O **Abrir MusicXML** foi criado para facilitar a abertura de arquivos `.xml` e `.musicxml`, renderizar a partitura na tela e oferecer controles de reprodução e impressão sem exigir instalação ou servidor.
+
+Tudo roda a partir do arquivo `index.html`.
 
 ---
 
-## 🚀 Como usar
+## Recursos principais
 
-### No navegador (modo local)
-
-1. Abra o arquivo `index.html` em qualquer navegador moderno (Chrome, Firefox, Edge).
-2. Clique em **"Carregar MusicXML"** e selecione seu arquivo `.xml` ou `.musicxml`.
-3. Use os controles para ajustar BPM, timbre, transposição etc.
-4. Clique em **▶ Play** para ouvir a partitura com cursor animado.
-
-### Integrando ao Moodle
-
-| Passo | Ação |
-|-------|------|
-| 1 | **Exportar XML** — No MuseScore (ou similar), exporte a partitura em formato MusicXML. |
-| 2 | **Carregar & Ajustar** — Carregue o arquivo nesta ferramenta e configure conforme desejado. |
-| 3 | **Copiar HTML** — Clique em "Copiar HTML" para copiar o player para a área de transferência. |
-| 4 | **Colar no Moodle** — No editor do Moodle, clique no botão `< / >` (HTML) e cole o código. |
+- Abertura de arquivos `.xml` e `.musicxml`
+- Renderização da partitura no navegador
+- Reprodução com cursor sincronizado
+- Controle de zoom e formato de página
+- Ajuste de layout por sistema
+- Impressão da partitura
+- Seleção de timbres por instrumento
+- Controles de andamento, transposição, oitava, reverb e metrônomo
 
 ---
 
-## 🛠️ Tecnologias
+## Como usar
 
-| Biblioteca | Versão | Finalidade |
-|---|---|---|
-| [OpenSheetMusicDisplay](https://github.com/opensheetmusicdisplay/opensheetmusicdisplay) | 1.9.7 | Renderização de partituras MusicXML |
-| [Soundfont Player](https://github.com/danigb/soundfont-player) | 0.12.0 | Síntese de áudio via soundfonts MIDI |
-
-Não requer instalação, servidor ou dependências extras — é um único arquivo `index.html`.
+1. Abra o arquivo `index.html` em um navegador moderno.
+2. Clique em **📂 Abrir arquivo**.
+3. Selecione uma partitura MusicXML.
+4. Ajuste visualização, layout e reprodução conforme necessário.
+5. Use os controles disponíveis para ouvir ou imprimir a partitura.
 
 ---
 
-## 📄 Licença
+## Estrutura do projeto
+
+- `index.html`: interface, estilos e lógica do aplicativo
+- `README.md`: documentação do projeto
+
+---
+
+## Tecnologias utilizadas
+
+- [OpenSheetMusicDisplay](https://opensheetmusicdisplay.org/)
+- [Soundfont Player](https://github.com/danigb/soundfont-player)
+
+---
+
+## Licença
 
 Uso livre para fins educacionais. Para outros usos, entre em contato com o autor.
