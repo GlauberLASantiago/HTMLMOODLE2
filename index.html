@@ -494,6 +494,8 @@
         }
 
         function zoomIn() {
+            var max = ZOOM_STEPS[ZOOM_STEPS.length - 1];
+            if (zoomPct >= max) { zoomPct = max; applyZoom(); return; }
             for (var i = 0; i < ZOOM_STEPS.length; i++) {
                 if (ZOOM_STEPS[i] > zoomPct) { zoomPct = ZOOM_STEPS[i]; break; }
             }
@@ -501,6 +503,8 @@
         }
 
         function zoomOut() {
+            var min = ZOOM_STEPS[0];
+            if (zoomPct <= min) { zoomPct = min; applyZoom(); return; }
             for (var i = ZOOM_STEPS.length - 1; i >= 0; i--) {
                 if (ZOOM_STEPS[i] < zoomPct) { zoomPct = ZOOM_STEPS[i]; break; }
             }
@@ -592,18 +596,23 @@
         });
 
         /* ── Drag-and-drop ── */
-        function highlight(e)   { e.preventDefault(); dropzone.classList.add('over'); }
-        function unhighlight(e) { e.preventDefault(); dropzone.classList.remove('over'); }
-
-        ['dragenter','dragover'].forEach(function (ev) {
-            document.addEventListener(ev, function (e) { if (e.dataTransfer.types.includes('Files')) { e.preventDefault(); dropzone.classList.add('over'); } });
+        document.addEventListener('dragenter', function (e) {
+            if (e.dataTransfer && e.dataTransfer.types && e.dataTransfer.types.includes('Files')) {
+                e.preventDefault();
+                dropzone.classList.add('over');
+            }
         });
-        ['dragleave','drop'].forEach(function (ev) {
-            document.addEventListener(ev, function () { dropzone.classList.remove('over'); });
+        document.addEventListener('dragover', function (e) {
+            if (e.dataTransfer && e.dataTransfer.types && e.dataTransfer.types.includes('Files')) {
+                e.preventDefault();
+                dropzone.classList.add('over');
+            }
         });
+        document.addEventListener('dragleave', function () { dropzone.classList.remove('over'); });
         document.addEventListener('drop', function (e) {
             e.preventDefault();
-            var files = e.dataTransfer.files;
+            dropzone.classList.remove('over');
+            var files = e.dataTransfer && e.dataTransfer.files;
             if (!files || !files.length) return;
             var f = files[0];
             if (!/\.(xml|musicxml)$/i.test(f.name)) {
