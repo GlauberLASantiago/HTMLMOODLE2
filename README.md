@@ -47,7 +47,7 @@ Tudo roda a partir do arquivo `index.html`.
 
 ## Tecnologias utilizadas
 
-- [OpenSheetMusicDisplay](https://opensheetmusicdisplay.org/)
+- [OpenSheetMusicDisplay](https://github.com/opensheetmusicdisplay/opensheetmusicdisplay)
 - [Soundfont Player](https://github.com/danigb/soundfont-player)
 
 ---
